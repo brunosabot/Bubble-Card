@@ -145,7 +145,8 @@ export default class BubbleCardEditor extends LitElement {
     }
     
     get _show_state() {
-        return this._config.show_state || false;
+        const defaultState = this._config.card_type === 'state' ? true : false;
+        return this._config.show_state || defaultState;
     }
 
     get _hide_backdrop() {
@@ -208,6 +209,10 @@ export default class BubbleCardEditor extends LitElement {
                 {
                     'label': 'Separator',
                     'value': 'separator'
+                },
+                {
+                    'label': 'State',
+                    'value': 'state'
                 }
             ];
 
@@ -627,6 +632,35 @@ export default class BubbleCardEditor extends LitElement {
                     ${this.makeDropdown("Card type", "card_type", cardTypeList)}
                     <h3>Empty column</h3>
                     <ha-alert alert-type="info">Just an empty card to fill any empty column.</ha-alert>
+                    ${this.makeVersion()}
+                </div>
+            `;
+        } else if (this._config.card_type === 'state') {
+            return html`
+                <div class="card-config">
+                    ${this.makeDropdown("Card type", "card_type", cardTypeList)}
+                    <h3>State</h3>
+                    <ha-alert alert-type="info">A card to display an entity state</ha-alert>
+                    ${this.makeDropdown(this._button_type !== 'slider' ? "Entity (toggle)" : "Entity (light or media_player)", "entity", allEntitiesList)}
+                     <ha-formfield .label="Optional - Show entity state">
+                        <ha-switch
+                            aria-label="Optional - Show entity state"
+                            .checked=${this._show_state}
+                            .configValue="${"show_state"}"
+                            @change=${this._valueChanged}
+                        ></ha-switch>
+                        <div class="mdc-form-field">
+                            <label class="mdc-label">Optional - Show entity state</label> 
+                        </div>
+                    </ha-formfield>
+                    <ha-textfield
+                        label="Optional - Name"
+                        .value="${this._name}"
+                        .configValue="${"name"}"
+                        @input="${this._valueChanged}"
+                        style="width: 100%;"
+                    ></ha-textfield>
+                    ${this.makeDropdown("Optional - Icon", "icon")}
                     ${this.makeVersion()}
                 </div>
             `;

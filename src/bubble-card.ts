@@ -7,6 +7,7 @@ import { handleButton } from './cards/button.ts';
 import { handleSeparator } from './cards/separator.ts';
 import { handleCover } from './cards/cover.ts';
 import { handleEmptyColumn } from './cards/empty-column.ts';
+import { handleState } from './cards/state.ts';
 import BubbleCardEditor from './editor/bubble-card-editor.ts';
 
 let editor;
@@ -53,6 +54,11 @@ class BubbleCard extends HTMLElement {
             // Initialize horizontal buttons stack
             case 'horizontal-buttons-stack' : 
                 handleHorizontalButtonsStack(this);
+                break;
+
+            // Intitalize state card
+            case 'state':
+                handleState(this);
                 break;
         }
 

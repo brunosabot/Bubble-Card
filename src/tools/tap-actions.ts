@@ -65,10 +65,10 @@ export function sendActionEvent(element, config, action) {
       action: "more-info"
     },
     double_tap_action: config.double_tap_action || {
-      action: "toggle"
+      action: config.card_type === "state" ? "more-info" : "toggle"
     },
     hold_action: config.hold_action || {
-      action: "toggle"
+      action: config.card_type === "state" ? "more-info" : "toggle"
     }
   };
 

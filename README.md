@@ -6,7 +6,7 @@ Bubble Card is a minimalist and customizable card collection for Home Assistant 
 
 ## Table of contents
 
-**[`Installation`](#installation)** | **[`Configuration`](#configuration)** | **[`Pop-up`](#pop-up)** | **[`Horizontal buttons stack`](#horizontal-buttons-stack)** | **[`Button`](#button)** | **[`Custom button`](#custom-button)** | **[`Cover`](#cover)** | **[`Separator`](#separator)** | **[`Empty column`](#empty-column)** | **[`Actions`](#tap-double-tap-and-hold-actions)** | **[`Full example`](#full-example)** | **[`Styling`](#styling)** | **[`Conflicts`](#custom-components-conflicts)** | **[`Help`](#help)** | **[`Contribution`](#contribution)** 
+**[`Installation`](#installation)** | **[`Configuration`](#configuration)** | **[`Pop-up`](#pop-up)** | **[`Horizontal buttons stack`](#horizontal-buttons-stack)** | **[`Button`](#button)** | **[`Custom button`](#custom-button)** | **[`Cover`](#cover)** | **[`Separator`](#separator)** | **[`Empty column`](#empty-column)** | **[`State`](#state)** | **[`Actions`](#tap-double-tap-and-hold-actions)** | **[`Full example`](#full-example)** | **[`Styling`](#styling)** | **[`Conflicts`](#custom-components-conflicts)** | **[`Help`](#help)** | **[`Contribution`](#contribution)**
 
 
 ## Screenshots and features
@@ -101,7 +101,7 @@ Most options can be configured in the GUI editor, except for custom styles, cust
 | Name | Type | Requirement | Supported options | Description |
 | --- | --- | --- | --- | --- |
 | `type` | string | **Required** | `custom:bubble-card` | Type of the card |
-| `card_type` | string | **Required** | `button`, `cover`, `empty-column`, `horizontal-buttons-stack`, `pop-up` or `separator` | Type of the Bubble Card, see below |
+| `card_type` | string | **Required** | `button`, `cover`, `empty-column`, `horizontal-buttons-stack`, `pop-up`, `separator` or `state` | Type of the Bubble Card, see below |
 | `styles` | object list | Optional | Any CSS stylesheets | Allows you to customize your cards, see [styling](#styling) |
 | `column_fix` | boolean or string | Optional | `true`, `false` (default) or a negative value like `-10` | Fix some issues with the dashboard layout, such as empty columns or misaligned cards. Add it in YAML to the **first** Bubble Card on your dashboard. You can also try to add a negative value to find the one that fit your dashboard. Then refresh the page. |
 
@@ -369,6 +369,36 @@ This card has no options.
 ```yaml
 type: custom:bubble-card
 card_type: empty-column
+```
+
+## State
+
+This is a simple state display that could help you display any kind of data that don't have a specific action linked.
+
+This is only available in YAML for now.
+
+### Options
+
+| Name | Type | Requirement | Supported options | Description |
+| --- | --- | --- | --- | --- |
+| `entity` | string | **Required** (and soon optional) | Any entity | An entity for the state of the button |
+| `name` | string | Optional | Any string | A name for your button, if not defined it will display the entity name |
+| `icon` | string | Optional | Any `mdi:` icon or a link to a square image | An icon for your button, if not defined it will display the entity icon or the `entity-picture` |
+| `show_state` | boolean | Optional | `true` (default) or `false` | Show the state of your `entity` below its `name` |
+| `tap_action` | object | Optional | See [actions](#tap-double-tap-and-hold-actions) | Define the type of action on button click, if undefined, `more-info` will be used. |
+| `double_tap_action` | object | Optional | See [actions](#tap-double-tap-and-hold-actions) | Define the type of action on the button double click, if undefined, `more-info` will be used. |
+| `hold_action` | object | Optional | See [actions](#tap-double-tap-and-hold-actions) | Define the type of action on button hold, if undefined, `more-info` will be used. |
+
+### Example
+
+Here is an example of a button that toggles all the lights of a room and if you double tap or hold it, it will open a pop-up with all your other lights:
+
+```yaml
+type: custom:bubble-card
+card_type: state
+entity: sensor.kitchen_temperature
+name: Kitchen
+icon: mdi:thermometer
 ```
 
 ## Tap, double tap and hold actions
