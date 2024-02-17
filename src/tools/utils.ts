@@ -47,9 +47,58 @@ export function toggleEntity(hass, entityId) {
     });
 }
 
+export function tapFeedback(context) {
+    if (context.elements.feedback === undefined) return;
 
+    forwardHaptic("success");
 
+    context.elements.feedback.style.display = '';
+    context.elements.feedback.style.animation = 'tap-feedback .5s';
 
+    setTimeout(() => {
+        context.elements.feedback.style.animation = 'none';
+        context.elements.feedback.style.display = 'none';
+    }, 500);
+}
 
+export function getIcon(context) {
+    const entityIcon = context._hass.states[context.config.entity]?.attributes.icon;
+    const configIcon = context.config.icon;
 
+    if (configIcon) return configIcon;
+    if (entityIcon) return entityIcon;
 
+    return '';
+}
+
+export function getImage(context) {
+    const entityImage = context._hass.states[context.config.entity]?.attributes.entity_picture;
+
+    if (entityImage) return entityImage;
+
+    return '';
+}
+
+export function getName(context) {
+    const configName = context.config.name;
+    const entityName = context._hass.states[context.config.entity]?.attributes.friendly_name 
+
+    if (configName) return configName;
+    if (entityName) return entityName;
+
+    return '';
+}
+
+export function getState(context) {
+    return context._hass.states[context.config.entity]?.state ?? '';
+}
+
+export function createElement(tag, className = '') {
+    const element = document.createElement(tag);
+
+    if (className !== '') {
+        element.classList.add(className);
+    }
+
+    return element;
+}
